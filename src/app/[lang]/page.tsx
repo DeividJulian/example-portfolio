@@ -1,7 +1,13 @@
+// src/app/[lang]/page.tsx
 import Image from "next/image";
 import { getDictionary } from "../i18n/dictionaries";
 import { Lang, languages } from "../i18n/config";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+
+/* Nuevas secciones */
+import PortfolioSection from "@/components/PortfolioSection";
+import DetailsSection from "@/components/DetailsSection";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
@@ -10,24 +16,32 @@ export async function generateStaticParams() {
 export default async function Home({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: { lang: Lang };
 }) {
-  const { lang } = await params;
+  const { lang } = params;
   const dict = await getDictionary(lang);
 
   return (
     <div className="font-sans flex justify-center">
+      {/* Botón Dark/Light fijo */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+
+      {/* Selector de idioma */}
       <LanguageSwitcher currentLang={lang} />
+
+      {/* grid general: NO lo cambiamos */}
       <main className="grid grid-cols-12 container mt-20 gap-10">
-        <span className="flex items-center justify-center col-span-3 row-span-2 bg-white rounded-2xl overflow-hidden">
+        <span className="flex items-center justify-center col-span-12 md:col-span-3 md:row-span-2 bg-white rounded-2xl overflow-hidden">
           <Image src="/avatar.jpg" alt="avatar" width={300} height={300} />
         </span>
 
-        <p className="p-5 text-2xl text-white col-span-9 rounded-2xl bg-foreground">
+        <p className="p-5 text-2xl text-white col-span-12 md:col-span-9 rounded-2xl bg-foreground">
           {dict.intro}
         </p>
 
-        <ul className="flex items-center col-span-9 gap-4 p-5 rounded-2xl bg-foreground">
+        <ul className="flex items-center col-span-12 md:col-span-9 gap-4 p-5 rounded-2xl bg-foreground">
           <li className="text-white text-lg font-bold border-r pr-4">
             {dict.sections.interests.title}
           </li>
@@ -41,7 +55,7 @@ export default async function Home({
           ))}
         </ul>
 
-        <article className="col-span-6 rounded-2xl bg-foreground p-10">
+        <article className="col-span-12 md:col-span-6 rounded-2xl bg-foreground p-10">
           <section className="flex items-center justify-between border-b border-b-grey pb-10">
             <header className="flex flex-col">
               <h3 className="text-2xl font-bold text-white">
@@ -62,7 +76,7 @@ export default async function Home({
           </ul>
         </article>
 
-        <article className="col-span-6 rounded-2xl bg-foreground p-10">
+        <article className="col-span-12 md:col-span-6 rounded-2xl bg-foreground p-10">
           <section className="flex items-center justify-between border-b border-b-grey pb-10">
             <header className="flex flex-col">
               <h3 className="text-2xl font-bold text-white">
@@ -83,25 +97,17 @@ export default async function Home({
           </ul>
         </article>
 
-        <ul className="flex gap-4 items-center col-span-6 rounded-2xl bg-foreground p-10">
+        <ul className="flex gap-4 items-center col-span-12 md:col-span-6 rounded-2xl bg-foreground p-10">
           <li className="text-white text-xl font-bold border-r pr-4">
             {dict.sections.designTools}
           </li>
-          <li className="flex items-center bg-[#360300] rounded-lg font-bold text-[#da9f4c] text-xl px-4 py-2">
-            Ai
-          </li>
-          <li className="flex items-center bg-[#0b172a] rounded-lg font-bold text-[#74aaf2] text-xl px-4 py-2">
-            Ps
-          </li>
-          <li className="flex items-center bg-[#59051e] rounded-lg font-bold text-[#d84b6f] text-xl px-4 py-2">
-            Id
-          </li>
-          <li className="flex items-center bg-[#480d30] rounded-lg font-bold text-[#de6ff0] text-xl px-4 py-2">
-            Xd
-          </li>
+          <li className="flex items-center bg-[#360300] rounded-lg font-bold text-[#da9f4c] text-xl px-4 py-2">Ai</li>
+          <li className="flex items-center bg-[#0b172a] rounded-lg font-bold text-[#74aaf2] text-xl px-4 py-2">Ps</li>
+          <li className="flex items-center bg-[#59051e] rounded-lg font-bold text-[#d84b6f] text-xl px-4 py-2">Id</li>
+          <li className="flex items-center bg-[#480d30] rounded-lg font-bold text-[#de6ff0] text-xl px-4 py-2">Xd</li>
         </ul>
 
-        <section className="flex flex-col gap-4 items-center col-span-6 row-span-3 rounded-2xl bg-foreground p-10">
+        <section className="flex flex-col gap-4 items-center col-span-12 md:col-span-6 md:row-span-3 rounded-2xl bg-foreground p-10">
           <article className="flex items-center justify-between w-full border-b border-b-grey pb-8">
             <span className="flex flex-col">
               <h2 className="text-white text-3xl font-bold">
@@ -154,19 +160,15 @@ export default async function Home({
           </article>
         </section>
 
-        <ul className="flex gap-4 items-center col-span-6 rounded-2xl bg-foreground p-10">
+        <ul className="flex gap-4 items-center col-span-12 md:col-span-6 rounded-2xl bg-foreground p-10">
           <li className="text-white text-xl font-bold border-r pr-4">
             {dict.sections.editingTools}
           </li>
-          <li className="flex items-center bg-[#000155] rounded-lg font-bold text-[#a0a0f9] text-xl px-4 py-2">
-            Ae
-          </li>
-          <li className="flex items-center bg-[#02035e] rounded-lg font-bold text-[#9997f9] text-xl px-4 py-2">
-            Pr
-          </li>
+          <li className="flex items-center bg-[#000155] rounded-lg font-bold text-[#a0a0f9] text-xl px-4 py-2">Ae</li>
+          <li className="flex items-center bg-[#02035e] rounded-lg font-bold text-[#9997f9] text-xl px-4 py-2">Pr</li>
         </ul>
 
-        <ul className="flex gap-4 items-center col-span-6 rounded-2xl bg-foreground p-10">
+        <ul className="flex gap-4 items-center col-span-12 md:col-span-6 rounded-2xl bg-foreground p-10">
           <li className="text-white text-xl font-bold border-r pr-4">
             {dict.sections.languages}
           </li>
@@ -174,6 +176,14 @@ export default async function Home({
           <li className="text-4xl">🇬🇧</li>
           <li className="text-4xl">🇺🇸</li>
         </ul>
+
+       
+        <div className="col-span-12">
+          <PortfolioSection />
+        </div>
+        <div className="col-span-12">
+          <DetailsSection />
+        </div>
       </main>
     </div>
   );
